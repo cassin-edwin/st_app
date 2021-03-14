@@ -1,3 +1,4 @@
+mysql==0.0.2
 altair==4.1.0
 argon2-cffi==20.1.0
 asgiref==3.2.7
@@ -44,7 +45,7 @@ lxml==4.6.2
 MarkupSafe==1.1.1
 mistune==0.8.4
 murmurhash==1.0.2
-mysql==0.0.2
+
 nbclient==0.5.1
 nbconvert==6.0.7
 nbformat==5.0.8
