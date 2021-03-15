@@ -2,7 +2,7 @@ import pandas as pd
 from pandas import DataFrame
 import datetime as dt
 from datetime import date,timedelta,datetime
-#import plotly.express as px
+import plotly.express as px
 import streamlit as st
 
 df1 = pd.read_csv('latest.csv')
