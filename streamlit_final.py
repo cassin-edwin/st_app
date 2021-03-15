@@ -5,7 +5,7 @@ from datetime import date,timedelta,datetime
 import plotly.express as px
 import streamlit as st
 
-df1 = pd.read_csv('E:/DS_squad/latest.csv')
+df1 = pd.read_csv('latest.csv')
 df1.rename(columns={0: 'incident_date', 1: 'incident_parent', 2: 'location', 3: 'neighborhood', 4: 'council_district',
                     5: 'police_district'}, inplace=True)
 df1['incident_date'] = pd.to_datetime(df1['incident_date'])
