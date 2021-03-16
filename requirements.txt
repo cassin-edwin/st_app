@@ -5,4 +5,6 @@ plotly-express==0.4.1
 streamlit==0.78.0
 mysql-connector==2.2.9
 sqlalchemy==1.4.0
+PyMySQL==1.0.2
+
 
