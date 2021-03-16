@@ -11,6 +11,7 @@ from sqlalchemy import create_engine
 import pymysql
 
 st.set_page_config(layout="wide")
+'''
 # Credentials
 user = 'caskey5_cassinEdwin'
 password = 'QD8HCCLN7P4y2Ft'
@@ -30,10 +31,12 @@ df1 = pd.read_sql(query, dbConnection)
 
 dbConnection.close()
 '''
+df1 = pd.read_csv('E:/DS_squad/newapp/latest.csv')
+
 df1.rename(
         columns={0: 'incident_date', 1: 'incident_parent', 2: 'location', 3: 'neighborhood', 4: 'council_district',
                  5: 'police_district'}, inplace=True)
-'''
+
 df1['incident_date'] = pd.to_datetime(df1['incident_date'])
 df1['incident_date_only'] = df1['incident_date'].dt.date
 df1['incident_parent'] = df1['incident_parent'].astype('string')
@@ -60,7 +63,8 @@ elif select_page == 'Past Statistics':
             a.reset_index(inplace=True)
 
             police_district = list(a['police_district'].unique())
-            select_pol_district = col1.multiselect('Select Police District(s)', police_district)
+            select_pol_district = col1.multiselect('Select Police District(s)', police_district,
+                                                       default=['District A'])
 
             a.dropna(inplace=True)
             a = a.reindex(
@@ -79,8 +83,8 @@ elif select_page == 'Past Statistics':
                 fig = px.scatter(a, x='incident_date_only', y='no_of_crimes',
                                      color=a['police_district'], height=548, width=620)
 
-                fig.update_traces(mode='lines')
-                fig.update_layout(
+            fig.update_traces(mode='lines')
+            fig.update_layout(
                     title={
                         'text': "Past trend in the last 14 days",
                         'y': 1,
