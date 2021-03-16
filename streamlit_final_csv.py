@@ -11,27 +11,8 @@ from sqlalchemy import create_engine
 import pymysql
 
 st.set_page_config(layout="wide")
-'''
-# Credentials
-user = 'caskey5_cassinEdwin'
-password = 'QD8HCCLN7P4y2Ft'
-host = 'caskeycoding.com'
-database = 'caskey5_buffaloCrime'
 
-# Database connection
-sqlEngine = create_engine('mysql+pymysql://{}:{}@{}:3306/{}'.format(user,password,host,database), pool_recycle=3600)
-dbConnection = sqlEngine.connect()
-
-# SQL query string
-query = "select incident_date,incident_parent,location,neighborhood,council_district,police_district from full_incidents order by incident_date desc limit 6000"
-
-# Execute query and return results as Pandas DataFRame
-df1 = pd.read_sql(query, dbConnection)
-
-
-dbConnection.close()
-'''
-df1 = pd.read_csv('E:/DS_squad/newapp/latest.csv')
+df1 = pd.read_csv('latest.csv')
 
 df1.rename(
         columns={0: 'incident_date', 1: 'incident_parent', 2: 'location', 3: 'neighborhood', 4: 'council_district',
