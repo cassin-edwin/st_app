@@ -21,13 +21,46 @@ df1.rename(
 df1['incident_date'] = pd.to_datetime(df1['incident_date'])
 df1['incident_date_only'] = df1['incident_date'].dt.date
 df1['incident_parent'] = df1['incident_parent'].astype('string')
+df1['location'] = df1['location'].astype('string')
 df1['neighborhood'] = df1['neighborhood'].astype('string')
 df1['council_district'] = df1['council_district'].astype('string')
 df1['police_district'] = df1['police_district'].astype('string')
 
+temp_df = df1.copy()
+temp_df.dropna(inplace = True)
+a = temp_df.location
+b = []
+for i in a:
+    b.append(i.split())
+c = []
+d = []
+for i in b:
+    c.append(float(i[0]))
+    d.append(float(i[1]))
+temp_df['lon'] = c
+temp_df['lat'] = d
+lat_lon = temp_df.groupby(['police_district','council_district','neighborhood'])['lat','lon'].agg('mean')
+lat_lon.reset_index(inplace=True)
+no_of_crimes = temp_df.groupby(['police_district','council_district','neighborhood']).agg('count')
+no_of_crimes.reset_index(inplace = True)
+lat_lon['no_of_crimes'] = no_of_crimes['incident_date']
+
 select_page = st.sidebar.selectbox('Page', ('Predictions', 'Past Statistics'))
+col10,col111 = st.beta_columns(2)
 if select_page == 'Predictions':
-    pass
+    def plotly_map():
+        px.set_mapbox_access_token(open("new.mapbox_token").read())
+
+        fig = px.scatter_mapbox(lat_lon, lat="lat", lon="lon", hover_name="neighborhood",
+                                hover_data={'no_of_crimes': False,
+                                            'police_district': True,
+                                            'council_district': True},
+                                size='no_of_crimes',
+                                color_continuous_scale=px.colors.cyclical.IceFire, size_max=16, zoom=10, height=600,
+                                width=650)
+        return fig
+    col111.plotly_chart(plotly_map())
+
 elif select_page == 'Past Statistics':
     frequency = ['Last 14 days', 'Last 1 month', 'Last 6 months']
     select_frequency = st.sidebar.radio('Select Frequency', frequency)
